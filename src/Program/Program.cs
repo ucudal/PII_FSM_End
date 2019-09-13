@@ -21,7 +21,7 @@ namespace PII_Herencia
         {
             Driver driver1 = new Driver("Bill", "Murray", "1111111", @"bill.jpg" ,"1959 Cadillac Blanco", "The great GhostBuster and master of time and groundhogs");
             Passenger passenger = new Passenger("Dan", "Aykroyd","2222222", @"dan.jpg");
-            DriverPool pooldriver1 = new DriverPool("Rick", "Moranis", "333333", @"rick.jpg", "VW Beattle", "Master of shirinking and Keymaster of Gozer", 4);
+            DriverPool pooldriver1 = new DriverPool("Rick", "Moranis", "333333", @"rick.jpg", "VW Beattle", "Master of shrinkage and Keymaster of Gozer", 4);
             UcuRideShare ride = new UcuRideShare();
             
             bool result = ride.Add(driver1);
