@@ -1,9 +1,9 @@
-using TwitterUCU;
+using Ucu.Poo.Twitter;
 
 namespace RideShareUCU
 {
     public static class TwitterApiSingleton
-    {       
+    {
         private const string consumerKey = "g7rkPB5uI2xOqELAhlNrorSU4";
         private const string consumerKeySecret = "8hOTyS71GrTH9Ool3rXykAJRY5AmgSPiy78b1wYUPcvfIzXeEc";
         private const string accessTokenSecret = "675fHmUzeaPajtj3pO64w5xd3p9YI3kco7kSvKhzeEvYe";
@@ -15,7 +15,8 @@ namespace RideShareUCU
             {
                 if (singleton is null)
                 {
-                    singleton = new TwitterImage(consumerKey, consumerKeySecret, accessToken, accessTokenSecret);
+                    //singleton = new TwitterImage(consumerKey, consumerKeySecret, accessToken, accessTokenSecret);
+                    singleton = new TwitterImage();
                 }
                 return singleton;
             }

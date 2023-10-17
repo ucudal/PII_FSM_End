@@ -1,10 +1,9 @@
-using CognitiveCoreUCU;
+using Ucu.Poo.Cognitive;
 
 namespace RideShareUCU
 {
     public static class CognitiveApiSingleton
     {
-        private const string apiKey = "620e818a46524ceb92628cde08068242";
         private static CognitiveFace singleton = null;
         public static CognitiveFace Singleton
         {
@@ -12,10 +11,10 @@ namespace RideShareUCU
             {
                 if (singleton is null)
                 {
-                    singleton = new CognitiveFace(apiKey);
+                    singleton = new CognitiveFace(true);
                 }
                 return singleton;
             }
-        } 
+        }
     }
 }

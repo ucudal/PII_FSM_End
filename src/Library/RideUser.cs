@@ -16,18 +16,19 @@ namespace RideShareUCU
             this.Name = name;
             this.LastName = lastName;
             this.ID = id;
-            this.Stars = 0;   
+            this.Stars = 0;
             this.ProfilePic = profilePicPath;
         }
 
         public virtual bool PublishNewUser()
         {
-            if (IsValidPicture())
+            bool result = IsValidPicture();
+            if (result)
             {
-                string result = TwitterApiSingleton.Singleton.PublishToTwitter(this.ToString(), this.ProfilePic);
-                return result == "OK";
+                TwitterApiSingleton.Singleton.PublishToTwitter(this.ToString(), this.ProfilePic);
             }
-            return false;
+
+            return result;
         }
 
         protected virtual bool IsValidPicture()
