@@ -1,0 +1,5 @@
+<map id="Ucu.Poo.Fsm.StateMachine.ProcessEvent" name="Ucu.Poo.Fsm.StateMachine.ProcessEvent">
+<area shape="rect" id="Node000001" title="Procesa un evento enviándolo al estado actual StateMachine.CurrentState." alt="" coords="244,5,434,46"/>
+<area shape="rect" id="Node000002" href="$classUcu_1_1Poo_1_1Fsm_1_1StateMachine.html#a14e4acbbafa2b8146d12a8f1e1e2db49" title="Procesa una secuencia de eventos." alt="" coords="5,5,196,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="228,28,196,28,196,23,228,23"/>
+</map>

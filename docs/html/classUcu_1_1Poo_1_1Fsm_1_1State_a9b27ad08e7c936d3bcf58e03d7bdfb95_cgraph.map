@@ -1,0 +1,5 @@
+<map id="Ucu.Poo.Fsm.State.ProcessEvent" name="Ucu.Poo.Fsm.State.ProcessEvent">
+<area shape="rect" id="Node000001" title="Procesa un evento si dispara alguna de las transiciones de este estado. Ver Transition...." alt="" coords="5,5,195,46"/>
+<area shape="rect" id="Node000002" href="$classUcu_1_1Poo_1_1Fsm_1_1Transition.html#a45843462b0e032fdd4eed34ad88e58ff" title="Procesa un evento determinando si se dispara o no la transición. En caso de que se dispare la transic..." alt="" coords="243,5,458,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,23,227,23,227,28,195,28"/>
+</map>
