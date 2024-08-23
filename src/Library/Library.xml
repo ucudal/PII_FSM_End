@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Library</name>
+    </assembly>
+    <members>
+        <member name="T:Ucu.Poo.Fsm.Event">
+            <summary>
+            Esta clase representa un evento procesable por la máquina de estado.
+            </summary>
+        </member>
+        <member name="F:Ucu.Poo.Fsm.Event.ELSEEVENTNAME">
+            <summary>
+            El nombre del evento <see cref="P:Ucu.Poo.Fsm.Event.Else"/>.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.Fsm.Event.#ctor(System.String)">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Ucu.Poo.Fsm.Event"/>.
+            </summary>
+            <param name="name">El nombre del evento.</param>
+        </member>
+        <member name="P:Ucu.Poo.Fsm.Event.Else">
+            <summary>
+            Obtiene un evento especial que tiene la semántica de "todos los demás
+            eventos". A un estado se agregan las transiciones para todos los eventos
+            que provocan un cambio de estado, más una transición con este evento
+            para representar todos los demás casos.
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.Fsm.Event.Name">
+            <summary>
+            Obtiene el nombre del evento. El nombre del evento no es usado durante
+            el procesamiento.
+            </summary>
+        </member>
+        <member name="T:Ucu.Poo.Fsm.State">
+            <summary>
+            Representa un estado en la máquina de estados.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.Fsm.State.#ctor(System.String)">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Ucu.Poo.Fsm.State"/>.
+            </summary>
+            <param name="name">El nombre del estado.</param>
+        </member>
+        <member name="P:Ucu.Poo.Fsm.State.Name">
+            <summary>
+            Obtiene el nombre del estado. El nombre del estado no es utilizado en el
+            procesamiento de los eventos.
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.Fsm.State.Transitions">
+            <summary>
+            Obtiene la lista de transiciones de salida de este estado agregadas con
+            el método <see cref="M:Ucu.Poo.Fsm.State.AddTransition(Ucu.Poo.Fsm.Event,Ucu.Poo.Fsm.State,System.Action)"/>.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.Fsm.State.AddTransition(Ucu.Poo.Fsm.Event,Ucu.Poo.Fsm.State,System.Action)">
+            <summary>
+            Agrega una nueva transición de salida a este estado.
+            </summary>
+            <remarks>
+            En caso de que se haya agregado una transición para el evento
+            <see cref="P:Ucu.Poo.Fsm.Event.Else"/>, la nueva transición se agrega
+            inmediatamente antes, para que la transición Event.Else sea siempre la
+            última.
+            </remarks>>
+            <param name="triggerEvent">El evento que dispara la transición.</param>
+            <param name="nextState">El próximo estado cuando se dispara esta
+            transición.</param>
+            <param name="onTransition">La acción que se ejecuta cuando se dispara
+            esta transición.</param>
+            <returns>La transición agregada.</returns>
+        </member>
+        <member name="M:Ucu.Poo.Fsm.State.ProcessEvent(Ucu.Poo.Fsm.Event)">
+            <summary>
+            Procesa un evento si dispara alguna de las transiciones de este estado.
+            Ver <see cref="M:Ucu.Poo.Fsm.Transition.ProcessEvent(Ucu.Poo.Fsm.Event)"/>.
+            </summary>
+            <param name="event">El evento a procesar.</param>
+            <returns>Retorna el estado siguiente de la transición disparada por el
+            evento procesado; retorna null si este evento no dispara una
+            transición.</returns>
+        </member>
+        <member name="T:Ucu.Poo.Fsm.StateMachine">
+            <summary>
+            Representa una máquina de estados. Una máquina de estados es un modelo
+            conceptual que describe sistemas con un número finito de estados y
+            transiciones que representan su comportamiento y la lógica.
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.Fsm.StateMachine.CurrentState">
+            <summary>
+            Obtiene o establece el estado actual de la máquina de estados.
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.Fsm.StateMachine.States">
+            <summary>
+            Obtiene la lista de estados agregados a esta máquina de estados con el
+            método <see cref="M:Ucu.Poo.Fsm.StateMachine.AddState(System.String)"/>.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.Fsm.StateMachine.AddState(System.String)">
+            <summary>
+            Agrega un estado a la máquina de estados.
+            </summary>
+            <param name="name">El nombre del estado.</param>
+            <returns>El estado agregado.</returns>
+        </member>
+        <member name="M:Ucu.Poo.Fsm.StateMachine.ProcessEvent(Ucu.Poo.Fsm.Event)">
+            <summary>
+            Procesa un evento enviándolo al estado actual
+            <see cref="P:Ucu.Poo.Fsm.StateMachine.CurrentState"/>.
+            </summary>
+            <param name="event">El evento a procesar.</param>
+            <returns><c>true</c> si el evento fue procesado por el estado actual y
+            la máquina de estados cambió al próximo estado; retorna <c>false</c> en
+            caso contrario.</returns>
+        </member>
+        <member name="M:Ucu.Poo.Fsm.StateMachine.ProcessEvent(Ucu.Poo.Fsm.Event[])">
+            <summary>
+            Procesa una secuencia de eventos.
+            </summary>
+            <param name="events">La secuencia de eventos.</param>
+            <returns><c>true</c> si todos los eventos de la secuencia fueron
+            procesados; retorna <c>false</c> en caso contrario.</returns>
+        </member>
+        <member name="T:Ucu.Poo.Fsm.Transition">
+            <summary>
+            Esta clase representa una transición a un estado en una máquina de estado
+            finito.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.Fsm.Transition.#ctor(Ucu.Poo.Fsm.Event,Ucu.Poo.Fsm.State,System.Action)">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Ucu.Poo.Fsm.Transition"/>.
+            </summary>
+            <param name="triggerEvent">El evento que dispara la transición.</param>
+            <param name="nextState">El estado al que se pasa cuando se dispara la
+            transición.</param>
+            <param name="onTransition">La acción que se ejecuta cuando se dispara
+            la transición.</param>
+        </member>
+        <member name="P:Ucu.Poo.Fsm.Transition.TriggerEvent">
+            <summary>
+            Obtiene el evento que dispara la transición.
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.Fsm.Transition.NextState">
+            <summary>
+            Obtiene el estado al que se pasa cuando se dispara la transición.
+            </summary>
+        </member>
+        <member name="P:Ucu.Poo.Fsm.Transition.OnTransition">
+            <summary>
+            Obtiene la acción que se ejecuta cuando se dispara la transición.
+            </summary>
+        </member>
+        <member name="M:Ucu.Poo.Fsm.Transition.ProcessEvent(Ucu.Poo.Fsm.Event)">
+            <summary>
+            Procesa un evento determinando si se dispara o no la transición. En caso
+            de que se dispare la transición, ejecuta la acción
+            <see cref="P:Ucu.Poo.Fsm.Transition.OnTransition"/> si es diferente de <c>null</c> y
+            retorna el estado siguiente <see cref="P:Ucu.Poo.Fsm.Transition.NextState"/>.
+            </summary>
+            <remarks>
+            El evento <see cref="P:Ucu.Poo.Fsm.Event.Else"/> dispara todas las transiciones.
+            </remarks>
+            <param name="event">El evento a procesar.</param>
+            <returns>Retorna el estado siguiente NextState si el evento procesado
+            dispara esta transición; retorna null en caso contrario.</returns>
+        </member>
+    </members>
+</doc>
