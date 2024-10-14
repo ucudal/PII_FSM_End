@@ -1,31 +1,30 @@
 using System.Collections.Generic;
 
-namespace RideShareUCU
+namespace Ucu.Poo.RideShare;
+
+public class UcuRideShare
 {
-    public class UcuRideShare
+    List<RideUser> userList;
+
+    public UcuRideShare()
     {
-        List<RideUser> userList;
+        this.userList = new List<RideUser>();
+    }
 
-        public UcuRideShare()
+    public bool Add(RideUser user)
+    {
+        if (!this.userList.Contains(user))
         {
-            this.userList = new List<RideUser>();
+            bool result = user.PublishNewUser();
+            if (result)
+            {
+                this.userList.Add(user);
+            }
+            return result;
         }
-
-        public bool Add(RideUser user)
+        else
         {
-            if (!this.userList.Contains(user))
-            {
-                bool result = user.PublishNewUser();
-                if (result)
-                {
-                    this.userList.Add(user);
-                }
-                return result;
-            }
-            else
-            {
-                return false;
-            }
+            return false;
         }
     }
 }

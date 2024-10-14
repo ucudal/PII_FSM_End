@@ -1,41 +1,37 @@
+namespace Ucu.Poo.RideShare;
 
-using System;
-
-namespace RideShareUCU
+public abstract class RideUser
 {
-    public abstract class RideUser
+    public string Name {get;set;}
+    public string LastName {get;set;}
+    public string ID {get;set;}
+    public double Stars {get; private set;}
+    public string ProfilePic {get; set;}
+
+    public RideUser(string name, string lastName, string id, string profilePicPath)
     {
-        public string Name {get;set;}
-        public string LastName {get;set;}
-        public string ID {get;set;}
-        public double Stars {get; private set;}
-        public string ProfilePic {get; set;}
-
-        public RideUser(string name, string lastName, string id, string profilePicPath)
-        {
-            this.Name = name;
-            this.LastName = lastName;
-            this.ID = id;
-            this.Stars = 0;
-            this.ProfilePic = profilePicPath;
-        }
-
-        public virtual bool PublishNewUser()
-        {
-            bool result = IsValidPicture();
-            if (result)
-            {
-                TwitterApiSingleton.Singleton.PublishToTwitter(this.ToString(), this.ProfilePic);
-            }
-
-            return result;
-        }
-
-        protected virtual bool IsValidPicture()
-        {
-            CognitiveApiSingleton.Singleton.Recognize(this.ProfilePic);
-            return CognitiveApiSingleton.Singleton.FaceFound;
-        }
-
+        this.Name = name;
+        this.LastName = lastName;
+        this.ID = id;
+        this.Stars = 0;
+        this.ProfilePic = profilePicPath;
     }
+
+    public virtual bool PublishNewUser()
+    {
+        bool result = IsValidPicture();
+        if (result)
+        {
+            TwitterApiSingleton.Singleton.PublishToTwitter(this.ToString(), this.ProfilePic);
+        }
+
+        return result;
+    }
+
+    protected virtual bool IsValidPicture()
+    {
+        CognitiveApiSingleton.Singleton.Recognize(this.ProfilePic);
+        return CognitiveApiSingleton.Singleton.FaceFound;
+    }
+
 }

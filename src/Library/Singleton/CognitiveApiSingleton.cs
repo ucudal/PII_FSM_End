@@ -1,20 +1,19 @@
 using Ucu.Poo.Cognitive;
 
-namespace RideShareUCU
+namespace Ucu.Poo.RideShare;
+
+public static class CognitiveApiSingleton
 {
-    public static class CognitiveApiSingleton
+    private static CognitiveFace singleton = null;
+    public static CognitiveFace Singleton
     {
-        private static CognitiveFace singleton = null;
-        public static CognitiveFace Singleton
+        get
         {
-            get
+            if (singleton is null)
             {
-                if (singleton is null)
-                {
-                    singleton = new CognitiveFace(true);
-                }
-                return singleton;
+                singleton = new CognitiveFace(true);
             }
+            return singleton;
         }
     }
 }
