@@ -1,37 +1,38 @@
-namespace Ucu.Poo.RideShare;
-
-public abstract class RideUser
+namespace Ucu.Poo.RideShare
 {
-    public string Name {get;set;}
-    public string LastName {get;set;}
-    public string ID {get;set;}
-    public double Stars {get; private set;}
-    public string ProfilePic {get; set;}
-
-    public RideUser(string name, string lastName, string id, string profilePicPath)
+    public abstract class RideUser
     {
-        this.Name = name;
-        this.LastName = lastName;
-        this.ID = id;
-        this.Stars = 0;
-        this.ProfilePic = profilePicPath;
-    }
+        public string Name { get; set; }
+        public string LastName { get; set; }
+        public string ID { get; set; }
+        public double Stars { get; private set; }
+        public string ProfilePic { get; set; }
 
-    public virtual bool PublishNewUser()
-    {
-        bool result = IsValidPicture();
-        if (result)
+        public RideUser(string name, string lastName, string id, string profilePicPath)
         {
-            TwitterApiSingleton.Singleton.PublishToTwitter(this.ToString(), this.ProfilePic);
+            this.Name = name;
+            this.LastName = lastName;
+            this.ID = id;
+            this.Stars = 0;
+            this.ProfilePic = profilePicPath;
         }
 
-        return result;
-    }
+        public virtual bool PublishNewUser()
+        {
+            bool result = IsValidPicture();
+            if (result)
+            {
+                TwitterApiSingleton.Singleton.PublishToTwitter(this.ToString(), this.ProfilePic);
+            }
 
-    protected virtual bool IsValidPicture()
-    {
-        CognitiveApiSingleton.Singleton.Recognize(this.ProfilePic);
-        return CognitiveApiSingleton.Singleton.FaceFound;
-    }
+            return result;
+        }
 
+        protected virtual bool IsValidPicture()
+        {
+            CognitiveApiSingleton.Singleton.Recognize(this.ProfilePic);
+            return CognitiveApiSingleton.Singleton.FaceFound;
+        }
+
+    }
 }
