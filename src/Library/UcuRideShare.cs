@@ -1,3 +1,9 @@
+//------------------------------------------------------------------------------
+// <copyright file="UcuRideShare.cs" company="Universidad Católica del Uruguay">
+//     Copyright (c) Programación II. Derechos reservados.
+// </copyright>
+//------------------------------------------------------------------------------
+
 using System.Collections.Generic;
 
 namespace Ucu.Poo.RideShare
@@ -8,10 +14,8 @@ namespace Ucu.Poo.RideShare
     /// </summary>
     public class UcuRideShare
     {
-        /// <summary>
-        /// Lista interna de usuarios registrados en el sistema.
-        /// </summary>
-        List<User> userList;
+        // Lista interna de usuarios registrados en el sistema.
+        private List<User> userList;
 
         /// <summary>
         /// Publicador utilizado para enviar mensajes e imágenes a Discord.

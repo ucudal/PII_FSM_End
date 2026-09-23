@@ -1,3 +1,9 @@
+//------------------------------------------------------------------------------
+// <copyright file="FaceDetector.cs" company="Universidad Católica del Uruguay">
+//     Copyright (c) Programación II. Derechos reservados.
+// </copyright>
+//------------------------------------------------------------------------------
+
 using System;
 using Ucu.Poo.Cognitive;
 
@@ -29,7 +35,6 @@ namespace Ucu.Poo.RideShare
             }
 
             this.face = new CognitiveFace(subscriptionKey);
-            // this.face = new CognitiveFace();
         }
 
         /// <summary>

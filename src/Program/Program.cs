@@ -1,22 +1,22 @@
-﻿using System;
+﻿//------------------------------------------------------------------------------
+// <copyright file="Program.cs" company="Universidad Católica del Uruguay">
+//     Copyright (c) Programación II. Derechos reservados.
+// </copyright>
+//------------------------------------------------------------------------------
+
+using System;
 
 namespace Ucu.Poo.RideShare
 {
-    class Program
+    /// <summary>
+    /// El programa principal.
+    /// </summary>
+    public static class Program
     {
-        static void PrintMessage(User user, bool result)
-        {
-            if (result)
-            {
-                Console.WriteLine(user.Name + " " + user.LastName + " fue agregado con éxito!");
-            }
-            else
-            {
-                Console.WriteLine("No se pudo agregar al usuario " + user.Name + " " + user.LastName);
-            }
-        }
-
-        static void Main(string[] args)
+        /// <summary>
+        /// Punto de entrada al programa principal.
+        /// </summary>
+        public static void Main()
         {
             Passenger passengerDan = new Passenger("Dan", "Aykroyd", "2222222", @"dan.jpg");
             Driver driverBill = new Driver("Bill", "Murray", "1111111", @"bill.jpg", "1959 Cadillac Blanco", "The great GhostBuster and master of time and groundhogs", false);
@@ -35,8 +35,18 @@ namespace Ucu.Poo.RideShare
 
             result = ride.Add(poolDriverRick);
             PrintMessage(poolDriverRick, result);
-            // IFaceDetector detector = new FaceDetector();
-            // detector.HasFace("bill.jpg");
+        }
+
+        private static void PrintMessage(User user, bool result)
+        {
+            if (result)
+            {
+                Console.WriteLine(user.Name + " " + user.LastName + " fue agregado con éxito!");
+            }
+            else
+            {
+                Console.WriteLine("No se pudo agregar al usuario " + user.Name + " " + user.LastName);
+            }
         }
     }
 }

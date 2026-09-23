@@ -1,3 +1,9 @@
+//------------------------------------------------------------------------------
+// <copyright file="Driver.cs" company="Universidad Católica del Uruguay">
+//     Copyright (c) Programación II. Derechos reservados.
+// </copyright>
+//------------------------------------------------------------------------------
+
 namespace Ucu.Poo.RideShare
 {
     /// <summary>
@@ -6,6 +12,31 @@ namespace Ucu.Poo.RideShare
     /// </summary>
     public class Driver : User
     {
+        /// <summary>
+        /// Inicializa una nueva instancia de la clase <see cref="Driver"/>.
+        /// </summary>
+        /// <param name="name">Nombre del conductor.</param>
+        /// <param name="lastName">Apellido del conductor.</param>
+        /// <param name="id">Cédula o identificador del conductor.</param>
+        /// <param name="picture">Ruta de la foto de perfil.</param>
+        /// <param name="vehicle">Vehículo del conductor.</param>
+        /// <param name="bio">Biografía breve del conductor.</param>
+        /// <param name="needsGlasses">Indica si la foto del conductor debe incluir lentes.</param>
+        public Driver(
+            string name,
+            string lastName,
+            string id,
+            string picture,
+            string vehicle,
+            string bio,
+            bool needsGlasses)
+            : base(name, lastName, id, picture)
+        {
+            this.Vehicle = vehicle;
+            this.Bio = bio;
+            this.NeedsGlasses = needsGlasses;
+        }
+
         /// <summary>
         /// Obtiene o establece el vehículo del conductor.
         /// </summary>
@@ -21,25 +52,6 @@ namespace Ucu.Poo.RideShare
         /// usar lentes.
         /// </summary>
         public bool NeedsGlasses { get; set; }
-
-        /// <summary>
-        /// Inicializa una nueva instancia de la clase <see cref="Driver"/>.
-        /// </summary>
-        /// <param name="name">Nombre del conductor.</param>
-        /// <param name="lastName">Apellido del conductor.</param>
-        /// <param name="id">Cédula o identificador del conductor.</param>
-        /// <param name="picture">Ruta de la foto de perfil.</param>
-        /// <param name="vehicle">Vehículo del conductor.</param>
-        /// <param name="bio">Biografía breve del conductor.</param>
-        /// <param name="needsGlasses">Indica si la foto del conductor debe incluir lentes.</param>
-        public Driver(string name, string lastName, string id, string picture,
-            string vehicle, string bio, bool needsGlasses)
-            : base(name, lastName, id, picture)
-        {
-            this.Vehicle = vehicle;
-            this.Bio = bio;
-            this.NeedsGlasses = needsGlasses;
-        }
 
         /// <summary>
         /// Devuelve el mensaje de bienvenida para un nuevo conductor

@@ -1,4 +1,8 @@
-using Ucu.Poo.RideShare;
+//------------------------------------------------------------------------------
+// <copyright file="PoolDriver.cs" company="Universidad Católica del Uruguay">
+//     Copyright (c) Programación II. Derechos reservados.
+// </copyright>
+//------------------------------------------------------------------------------
 
 namespace Ucu.Poo.RideShare
 {
@@ -8,12 +12,6 @@ namespace Ucu.Poo.RideShare
     /// </summary>
     public class PoolDriver : Driver
     {
-        /// <summary>
-        /// Obtiene o establece la cantidad máxima de pasajeros que puede
-        /// transportar el conductor pool.
-        /// </summary>
-        public int Capacity { get; set; }
-
         /// <summary>
         /// Inicializa una nueva instancia de la clase <see cref="PoolDriver"/>.
         /// </summary>
@@ -32,6 +30,12 @@ namespace Ucu.Poo.RideShare
         {
             this.Capacity = capacity;
         }
+
+        /// <summary>
+        /// Obtiene o establece la cantidad máxima de pasajeros que puede
+        /// transportar el conductor pool.
+        /// </summary>
+        public int Capacity { get; set; }
 
         /// <summary>
         /// Devuelve un mensaje de bienvenida específico para un conductor pool.
