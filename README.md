@@ -66,9 +66,11 @@ subir una foto.
 Deberás programar todas estas clases junto con un ejemplo de ejecución en el
 Program. En cuanto al funcionamiento del sistema, solamente es necesario
 mantener una lista de conductores y pasajeros y realizar la publicación
-correspondiente cuando se agrega un nuevo pasajero o conductor. Para ello,
-podrás hacer uso de la clase [DiscordClient](./src/Discord/DiscordClient.cs)
-provista.
+correspondiente en Discord cuando se agrega un nuevo pasajero o conductor. Para
+ello, podrás hacer uso de la clase
+[DiscordClient](https://ucudal.github.io/PII_DiscordPublisher/classUcu_1_1Poo_1_1Discord_1_1DiscordClient.html)
+del paquete NuGet
+[DiscordPublisher](https://www.nuget.org/packages/Ucu.Poo.DiscordPublisher/).
 
 > [!NOTE]
 >
@@ -88,18 +90,39 @@ provista.
 > set CHANNEL_ID="AQUÍ_VA_EL_ID"
 > ```
 
-<!-- ## Desafío 3 (!Desafío Bonus!)
+## Desafío 3 (¡Bonus!) 😎
 
 Si bien la universidad espera que los usuarios, al ser adultos, no publiquen
 fotos inadecuadas en Discord, todos pueden cometer errores y por lo tanto se
 desea aplicar un filtro a las potenciales fotos a publicar:
 
- * Todas las fotos de perfil de los pasajeros deberán contener una cara.
+* Todas las fotos de perfil de los pasajeros deberán contener una cara.
 
- * Todas las fotos de perfil de los conductores deberán contener una cara y
-   además estar sonriendo.
+* Los conductores pueden necesitar lentes o no; si necesitan lentes, la foto de
+  perfil deberá tener lentes.
 
-Para ello, podrás hacer uso de la API de Discord provista en el siguiente repo: https://github.com/ucudal/PII_CognitiveAPI -->
+Para
+ello, podrás hacer uso de la clase
+[CognitiveFace](https://ucudal.github.io/PII_FaceRecognizer/classUcu_1_1Poo_1_1Cognitive_1_1CognitiveFace.html)
+del paquete NuGet
+[FaceRecognizer](https://www.nuget.org/packages/Ucu.Poo.FaceRecognizer/).
+
+> [!NOTE]
+>
+> Necesitarás la subscription key del servicio de Azure Face. Te lo daremos en
+> clase.
+>
+> En MacOS deberás ejecutar:
+>
+> ```bash
+> export AZURE_FACE_SUBSCRIPTION_KEY="AQUÍ_VA_LA_KEY"
+> ```
+>
+> En Windows deberás ejecutar:
+>
+> ```cmd
+> set AZURE_FACE_SUBSCRIPTION_KEY="AQUÍ_VA_LA_KEY"
+> ```
 
 ## Uso de ![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-000?logo=githubcopilot&logoColor=fff)
 

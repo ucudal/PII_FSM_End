@@ -23,7 +23,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Library\Library.csproj" />
-    <PackageReference Include="Ucu.Poo.DiscordPublisher" Version="[0.0.4,99.99.99)" />
+    <PackageReference Include="Ucu.Poo.DiscordPublisher" Version="1.1.6" />
+    <PackageReference Include="Ucu.Poo.FaceRecognizer" Version="1.1.8" />
   </ItemGroup>
 
 </Project>
