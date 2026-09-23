@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿using System;
 
 namespace Ucu.Poo.RideShare
@@ -38,3 +39,29 @@ namespace Ucu.Poo.RideShare
         }
     }
 }
+=======
+﻿//------------------------------------------------------------------------------
+// <copyright file="Program.cs" company="Universidad Católica del Uruguay">
+//     Copyright (c) Programación II. Derechos reservados.
+// </copyright>
+//------------------------------------------------------------------------------
+
+using System;
+
+namespace Ucu.Poo.Exercise
+{
+    /// <summary>
+    /// Programa principal.
+    /// </summary>
+    public static class Program
+    {
+        /// <summary>
+        /// Punto de entrada al programa principal.
+        /// </summary>
+        public static void Main()
+        {
+            Console.WriteLine("Hello World!");
+        }
+    }
+}
+>>>>>>> upstream/main
