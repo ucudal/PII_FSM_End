@@ -24,8 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ucu.Poo.DiscordPublisher" Version="1.1.6" />
-    <PackageReference Include="Ucu.Poo.FaceRecognizer" Version="1.1.8" />
+    <PackageReference Include="Ucu.Poo.DiscordPublisher" Version="1.1.7" />
+    <PackageReference Include="Ucu.Poo.FaceRecognizer" Version="1.1.9" />
   </ItemGroup>
 
 </Project>
