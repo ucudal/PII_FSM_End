@@ -1,12 +1,28 @@
-﻿using Ucu.Poo.Fsm;
+//------------------------------------------------------------------------------
+// <copyright file="Program.cs" company="Universidad Católica del Uruguay">
+//     Copyright (c) Programación II. Derechos reservados.
+// </copyright>
+//------------------------------------------------------------------------------
 
-public class Program
+using Ucu.Poo.Fsm;
+
+using System;
+
+namespace Ucu.Poo.RideShare
 {
-    public static void Main()
+    /// <summary>
+    /// El programa principal.
+    /// </summary>
+    public static class Program
     {
-        StateMachine player = new MusicPlayer();
-        Event[] buttons = new Event[] { new Play(), new Pause(), new Play(), new Stop() };
-        player.ProcessEvents(buttons);
+        /// <summary>
+        /// Punto de entrada al programa principal.
+        /// </summary>
+        public static void Main()
+        {
+            StateMachine player = new MusicPlayer();
+            Event[] buttons = new Event[] { new Play(), new Pause(), new Play(), new Stop() };
+            player.ProcessEvents(buttons);
+        }
     }
 }
-

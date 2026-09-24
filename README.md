@@ -1,4 +1,12 @@
-Ver [aquí](https://raw.githack.com/ucudal/PII_FSM_End/main/docs/html/classUcu_1_1Poo_1_1Fsm_1_1StateMachine.html).
+<!-- markdownlint-disable-next-line MD033 MD041 -->
+<img alt="UCU" src="https://www.ucu.edu.uy/plantillas/images/logo_ucu.svg"
+width="150"/>
+
+# Universidad Católica del Uruguay
+
+## Programación II
+
+# Máquinas de estados finitos
 
 ## Introducción
 
@@ -131,3 +139,8 @@ ciertas acciones cuando se entra y cuando se sale del estado.
 
 La clase `Transition` tiene la responsabilidad de conocer qué evento la dispara
 y cuál es el próximo estado.
+
+## Uso de ![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-000?logo=githubcopilot&logoColor=fff)
+
+Es posible usar GitHub Copilot en este repositorio. Consulta [cómo usar Copilot
+para aprender](./COPILOT.md).
