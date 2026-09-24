@@ -143,7 +143,7 @@ estado.
 La clase `Transition` tiene la responsabilidad de conocer qué entrada la dispara
 y cuál es el próximo estado.
 
-> {!TIP}
+> [!TIP]
 >
 > Agrega las clases `StateMachine`, `State`, `Transition` e `Input` en la
 > carpeta `src/Library/Base` y las clases del reproductor de música en
