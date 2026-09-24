@@ -22,7 +22,7 @@
     "cSpell.ignorePaths": [
         "/.gitignore",
     ],
-    "dotnet.defaultSolution": "UcuRide.sln", // ← Renombrar para que coincida con la solución
+    "dotnet.defaultSolution": "PII_FSM.sln", // ← Renombrar para que coincida con la solución
     "github.copilot.enable": {
         "*": false
     },
