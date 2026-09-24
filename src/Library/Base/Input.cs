@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// <copyright file="Event.cs" company="Universidad Católica del Uruguay">
+// <copyright file="Input.cs" company="Universidad Católica del Uruguay">
 //     Copyright (c) Programación II. Derechos reservados.
 // </copyright>
 //------------------------------------------------------------------------------
@@ -7,10 +7,10 @@
 namespace Ucu.Poo.Fsm
 {
     /// <summary>
-    /// Esta clase representa un evento procesable por la máquina de estados
-    /// finitos <see cref="StateMachine"/>.
+    /// Esta clase representa una entrada que la máquina de estados
+    /// finitos <see cref="StateMachine"/> puede procesar.
     /// </summary>
-    public class Event
+    public class Input
     {
         // Intencionalmente en blanco
     }

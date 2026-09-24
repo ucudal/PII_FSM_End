@@ -22,9 +22,9 @@ namespace Ucu.Poo.Fsm
             State playing = new Playing();
             State paused = new Paused();
 
-            Event play = new Play();
-            Event pause = new Pause();
-            Event stop = new Stop();
+            Input play = new Play();
+            Input pause = new Pause();
+            Input stop = new Stop();
 
             stopped.AddTransition(play, playing);
             playing.AddTransition(pause, paused);

@@ -18,17 +18,17 @@ consiste en leer una secuencia de símbolos de ese alfabeto, ir cambiando de
 estado según la función de transición, y detenerse en un estado final o de
 aceptación que representa el resultado del cómputo.
 
-Las máquinas de estado finito pueden ser utilizadas, entre otras situaciones,
+Las máquinas de estados finitos pueden ser utilizadas, entre otras situaciones,
 para modelar casos en los que:
 
 * Hay varios estados posibles
 
 * Se puede estar en un solo estado a la vez
 
-* Los cambios de un estado se producen ante la ocurrencia de ciertos eventos.
+* Los cambios de un estado se producen ante la ocurrencia de ciertas entradas.
 
-Un reproductor de música es uno de esos casos que puede ser modelado con una
-máquina de estados finitos.
+Un reproductor de música, por ejemplo, es uno de esos casos que puede ser
+modelado con una máquina de estados finitos.
 
 El reproductor puede estar en alguno de los siguientes estados, pero solo en uno
 a la vez:
@@ -42,23 +42,25 @@ a la vez:
 El cambio de un estado a otro ocurre al presionar los botones `Play`, `Pause` o
 `Stop` del reproductor:
 
-| Estado actual | Evento  | Nuevo estado |
-| ------------- | ------- | ------------ |
-| `Stopped`     | `Play`  | `Playing`    |
-| `Playing`     | `Pause` | `Paused`     |
-| `Playing`     | `Stop`  | `Stopped`    |
-| `Paused`      | `Play`  | `Playing`    |
-| `Paused`      | `Stop`  | `Stopped`    |
+| Estado actual | Entrada  | Nuevo estado |
+| ------------- | -------  | ------------ |
+| `Stopped`     | `Play`   | `Playing`    |
+| `Playing`     | `Pause`  | `Paused`     |
+| `Playing`     | `Stop`   | `Stopped`    |
+| `Paused`      | `Play`   | `Playing`    |
+| `Paused`      | `Stop`   | `Stopped`    |
 
-Otros eventos, como el del botón `Play` durante el estado `Playing`, que no
+Otras entradas, como la del botón `Play` durante el estado `Playing`, que no
 provocan un cambio de estado, no aparecen en esta tabla y se ignoran.
 
 ¿Cómo corresponde este ejemplo con la definición de máquina de estados finitos?
 
-* El alfabeto está formado por los símbolos `Play`, `Pause` y `Stop`, que
-  que son los eventos que ocurren al presionar los botones correspondientes.
+* El alfabeto está formado por los símbolos `Play`, `Pause` y `Stop`, que que
+  son las entradas que recibe la máquina de estados finitos al presionar los
+  botones correspondientes.
 
-* El conjunto finito de estados está compuesto por `Stopped`, `Playing` y `Paused`.
+* El conjunto finito de estados está compuesto por `Stopped`, `Playing` y
+  `Paused`.
 
 * La función de transición, que es $f(estado actual, símbolo)=nuevo estado$,
   está en la tabla anterior.
@@ -93,7 +95,7 @@ stateDiagram-v2
 ## Objetivo
 
 El desafío de este ejercicio es modelar una máquina de estados finitos genérica
-primero, con clases para `State`, `Event` y `Transition`. Luego reutilizar esas
+primero, con clases para `State`, `Input` y `Transition`. Luego reutilizar esas
 clases para el caso del reproductor de canciones.
 
 Para facilitar la tarea, te damos un diagrama de clases mostrando las
@@ -104,40 +106,41 @@ classDiagram
     class StateMachine {
         CurrentState: State
         AddState(State)
-        ProcessEvent(Event) bool
-        ProcessEvents(Events[]) bool
+        ProcessInput(Input) bool
+        ProcessInputs(Inputs[]) bool
     }
 
     class State {
-        AddTransition(Event, State)
-        GetNextState(Event) State
+        AddTransition(Input, State)
+        GetNextState(Input) State
         OnEnter()
         OnExit()
     }
 
     StateMachine *--> State : States
 
-    class Event {
+    class Input {
     }
 
     class Transition {
-        IsTriggeredBy(Event) bool
+        IsTriggeredBy(Input) bool
     }
 
     Transition --> State : NextState
-    Transition --> Event : TriggerEvent
+    Transition --> Input : TriggerInput
     State *--> Transition : Transitions
 ```
 
-La clase `StateMachie` tiene la responsabilidad de conocer múltiples `State`,
-cuál de ellos es el `CurrentState`, agregar estados, y procesar uno o más
-eventos.
+La clase `StateMachine` tiene la responsabilidad de conocer múltiples `State`,
+cuál de ellos es el `CurrentState`, agregar estados, y procesar una o más
+entradas.
 
 La clase `State` tiene la responsabilidad de conocer una o más transiciones a
-otros estados, determinar el próximo estado cuando ocurre un evento, y ejecutar
-ciertas acciones cuando se entra y cuando se sale del estado.
+otros estados, determinar el próximo estado cuando la máquina recibe una
+entrada, y ejecutar ciertas acciones cuando se entra y cuando se sale del
+estado.
 
-La clase `Transition` tiene la responsabilidad de conocer qué evento la dispara
+La clase `Transition` tiene la responsabilidad de conocer qué entrada la dispara
 y cuál es el próximo estado.
 
 ## Uso de ![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-000?logo=githubcopilot&logoColor=fff)

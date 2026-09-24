@@ -10,7 +10,7 @@ namespace Ucu.Poo.Fsm
     /// Esta clase representa el evento del botón `Stop` del reproductor de
     /// música.
     /// </summary>
-    public class Stop : Event
+    public class Stop : Input
     {
         // Intencionalmente en blanco
     }
