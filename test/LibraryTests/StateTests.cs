@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using Ucu.Poo.Fsm;
-using System;
 
 namespace Ucu.Poo.Fsm.Tests;
 
@@ -8,133 +7,51 @@ namespace Ucu.Poo.Fsm.Tests;
 public class StateTests
 {
     [Test]
-    public void AddTransition_ShouldAddTransitionToEmptyState()
+    public void AddTransition_StateWithoutTransitions_AddsTransition()
     {
-        // Arrange
-        State state = new State("InitialState");
-        Event triggerEvent = new Event("TestEvent");
-        State nextState = new State("NextState");
+        TestState state = new TestState();
+        TestState nextState = new TestState();
+        Play play = new Play();
 
-        // Act
-        Transition transition = state.AddTransition(triggerEvent, nextState);
+        state.AddTransition(play, nextState);
 
-        // Assert
-        Assert.That(state.Transitions, Has.Exactly(1).EqualTo(transition));
+        Assert.That(state.Transitions, Has.Count.EqualTo(1));
+        Assert.That(state.Transitions[0].TriggerEvent, Is.SameAs(play));
+        Assert.That(state.Transitions[0].NextState, Is.SameAs(nextState));
     }
 
     [Test]
-    public void AddTransition_ShouldAddElseTransitionLast()
+    public void GetNextState_MatchingEventType_ReturnsNextState()
     {
-        // Arrange
-        State state = new State("InitialState");
-        Transition firstTransition = state.AddTransition(new Event("TestEvent1"), new State("NextState1"));
+        TestState state = new TestState();
+        TestState nextState = new TestState();
+        state.AddTransition(new Play(), nextState);
 
-        // Act
-        Transition elseTransition = state.AddTransition(Event.Else, new State("ElseState"));
+        State result = state.GetNextState(new Play());
 
-        // Assert
-        Assert.That(state.Transitions.Count, Is.EqualTo(2));
-        Assert.That(state.Transitions[1], Is.EqualTo(elseTransition));
+        Assert.That(result, Is.SameAs(nextState));
     }
 
     [Test]
-    public void AddTransition_ShouldInsertBeforeElseTransition()
+    public void GetNextState_EventWithoutTransition_ReturnsNull()
     {
-        // Arrange
-        State state = new State("InitialState");
-        Transition elseTransition = state.AddTransition(Event.Else, new State("ElseState"));
-        
-        // Act
-        Transition middleTransition = state.AddTransition(new Event("TestEvent2"), new State("NextState2"));
+        TestState state = new TestState();
+        state.AddTransition(new Play(), new TestState());
 
-        // Assert
-        Assert.That(state.Transitions.Count, Is.EqualTo(2));
-        Assert.That(state.Transitions[0], Is.EqualTo(middleTransition));
-        Assert.That(state.Transitions[1], Is.EqualTo(elseTransition));
+        State result = state.GetNextState(new Pause());
+
+        Assert.That(result, Is.Null);
     }
 
-    [Test]
-    public void ProcessEvent_ShouldReturnNextState_OnMatchingTransition()
+    private sealed class TestState : State
     {
-        // Arrange
-        State initialState = new State("InitialState");
-        Event triggerEvent = new Event("TestEvent");
-        State nextState = new State("NextState");
+        public override void OnEnter()
+        {
+        }
 
-        initialState.AddTransition(triggerEvent, nextState);
-
-        // Act
-        State resultState = initialState.ProcessEvent(triggerEvent);
-
-        // Assert
-        Assert.That(resultState, Is.EqualTo(nextState));
-    }
-
-    [Test]
-    public void ProcessEvent_ShouldInvokeAction_OnTransition()
-    {
-        // Arrange
-        State initialState = new State("InitialState");
-        bool actionInvoked = false;
-        Action transitionAction = () => actionInvoked = true;
-        Event triggerEvent = new Event("TestEvent");
-        State nextState = new State("NextState");
-
-        initialState.AddTransition(triggerEvent, nextState, transitionAction);
-
-        // Act
-        initialState.ProcessEvent(triggerEvent);
-
-        // Assert
-        Assert.That(actionInvoked, Is.True);
-    }
-
-    [Test]
-    public void ProcessEvent_ShouldReturnNull_OnNonMatchingEvent()
-    {
-        // Arrange
-        State initialState = new State("InitialState");
-        Event triggerEvent = new Event("TestEvent");
-        Event nonMatchingEvent = new Event("NonMatchingEvent");
-        State nextState = new State("NextState");
-
-        initialState.AddTransition(triggerEvent, nextState);
-
-        // Act
-        State resultState = initialState.ProcessEvent(nonMatchingEvent);
-
-        // Assert
-        Assert.That(resultState, Is.Null);
-    }
-
-    [Test]
-    public void ProcessEvent_ShouldTriggerElseTransition_WhenNoOtherMatch()
-    {
-        // Arrange
-        State initialState = new State("InitialState");
-        Event nonMatchingEvent = new Event("NonMatchingEvent");
-        State nextState = new State("NextState");
-
-        initialState.AddTransition(Event.Else, nextState);
-
-        // Act
-        State resultState = initialState.ProcessEvent(nonMatchingEvent);
-
-        // Assert
-        Assert.That(resultState, Is.EqualTo(nextState));
-    }
-
-    [Test]
-    public void ProcessEvent_ShouldReturnNull_WhenNoTransitions()
-    {
-        // Arrange
-        State initialState = new State("InitialState");
-        Event someEvent = new Event("SomeEvent");
-
-        // Act
-        State resultState = initialState.ProcessEvent(someEvent);
-
-        // Assert
-        Assert.That(resultState, Is.Null);
+        public override void OnExit()
+        {
+        }
     }
 }
+

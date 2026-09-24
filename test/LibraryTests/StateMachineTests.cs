@@ -1,156 +1,157 @@
+using NUnit.Framework;
+using Ucu.Poo.Fsm;
+
 namespace Ucu.Poo.Fsm.Tests;
 
 [TestFixture]
 public class StateMachineTests
 {
     [Test]
-    public void AddState_ShouldAddStateToMachine()
+    public void AddState_NewState_AddsTheState()
     {
-        // Arrange
         StateMachine stateMachine = new StateMachine();
+        State state = new TestState();
 
-        // Act
-        State state = stateMachine.AddState("State1");
+        stateMachine.AddState(state);
 
-        // Assert
-        Assert.That(stateMachine.States, Has.Exactly(1).EqualTo(state));
+        Assert.That(stateMachine.States, Does.Contain(state));
     }
 
     [Test]
-    public void AddState_ShouldSetInitialState()
+    public void AddState_DuplicateState_DoesNothing()
     {
-        // Arrange
         StateMachine stateMachine = new StateMachine();
+        State firstState = new TestState();
+        State secondState = new TestState();
 
-        // Act
-        State state = stateMachine.AddState("State1");
+        stateMachine.AddState(firstState);
+        stateMachine.AddState(secondState);
 
-        // Assert
-        Assert.That(stateMachine.CurrentState, Is.EqualTo(state));
+        Assert.That(stateMachine.States, Does.Not.Contain(secondState));
     }
 
     [Test]
-    public void AddState_ShouldNotChangeInitialStateWhenAddingMoreStates()
+    public void AddState_FirstState_SetsCurrentState()
     {
-        // Arrange
         StateMachine stateMachine = new StateMachine();
-        State initialState = stateMachine.AddState("State1");
+        State firstState = new TestState();
+        State secondState = new AnotherState();
 
-        // Act
-        stateMachine.AddState("State2");
+        stateMachine.AddState(firstState);
+        stateMachine.AddState(secondState);
 
-        // Assert
-        Assert.That(stateMachine.CurrentState, Is.EqualTo(initialState));
+        Assert.That(stateMachine.States, Has.Count.EqualTo(2));
+        Assert.That(stateMachine.CurrentState, Is.SameAs(firstState));
     }
 
     [Test]
-    public void ProcessEvent_ShouldReturnFalseWhenNoCurrentState()
+    public void ProcessEvent_NoStates_ReturnsFalse()
     {
-        // Arrange
         StateMachine stateMachine = new StateMachine();
-        Event testEvent = new Event("TestEvent");
 
-        // Act
-        bool result = stateMachine.ProcessEvent(testEvent);
+        bool processed = stateMachine.ProcessEvent(new Play());
 
-        // Assert
-        Assert.That(result, Is.False);
+        Assert.That(processed, Is.False);
     }
 
     [Test]
-    public void ProcessEvent_ShouldChangeStateOnValidTransition()
+    public void ProcessEvent_ValidTransition_ChangesStateAndInvokesLifecycleMethods()
     {
-        // Arrange
         StateMachine stateMachine = new StateMachine();
-        State state1 = stateMachine.AddState("State1");
-        State state2 = stateMachine.AddState("State2");
-        Event testEvent = new Event("TestEvent");
+        TestState firstState = new TestState();
+        AnotherState secondState = new AnotherState();
+        firstState.AddTransition(new Play(), secondState);
+        stateMachine.AddState(firstState);
+        stateMachine.AddState(secondState);
 
-        state1.AddTransition(testEvent, state2);
+        bool processed = stateMachine.ProcessEvent(new Play());
 
-        // Act
-        bool result = stateMachine.ProcessEvent(testEvent);
-
-        // Assert
-        Assert.That(result, Is.True);
-        Assert.That(stateMachine.CurrentState, Is.EqualTo(state2));
+        Assert.That(processed, Is.True);
+        Assert.That(stateMachine.CurrentState, Is.SameAs(secondState));
+        Assert.That(firstState.ExitCount, Is.EqualTo(1));
+        Assert.That(secondState.EnterCount, Is.EqualTo(1));
     }
 
     [Test]
-    public void ProcessEvent_ShouldReturnFalseOnNoMatchingTransition()
+    public void ProcessEvent_NoMatchingTransition_ReturnsFalseAndKeepsState()
     {
-        // Arrange
         StateMachine stateMachine = new StateMachine();
-        State state1 = stateMachine.AddState("State1");
-        Event testEvent = new Event("TestEvent");
+        TestState state = new TestState();
+        stateMachine.AddState(state);
 
-        // Act
-        bool result = stateMachine.ProcessEvent(testEvent);
+        bool processed = stateMachine.ProcessEvent(new Pause());
 
-        // Assert
-        Assert.That(result, Is.False);
-        Assert.That(stateMachine.CurrentState, Is.EqualTo(state1));
+        Assert.That(processed, Is.False);
+        Assert.That(stateMachine.CurrentState, Is.SameAs(state));
     }
 
     [Test]
-    public void ProcessEventSequence_ShouldProcessAllEvents()
+    public void ProcessEvents_AllEventsProcessSuccessfully_EndsInFinalState()
     {
-        // Arrange
         StateMachine stateMachine = new StateMachine();
-        State state1 = stateMachine.AddState("State1");
-        State state2 = stateMachine.AddState("State2");
-        State state3 = stateMachine.AddState("State3");
-        Event event1 = new Event("Event1");
-        Event event2 = new Event("Event2");
+        TestState firstState = new TestState();
+        TestState secondState = new TestState();
+        TestState thirdState = new TestState();
+        firstState.AddTransition(new Play(), secondState);
+        secondState.AddTransition(new Pause(), thirdState);
+        stateMachine.AddState(firstState);
+        stateMachine.AddState(secondState);
+        stateMachine.AddState(thirdState);
 
-        state1.AddTransition(event1, state2);
-        state2.AddTransition(event2, state3);
+        bool processed = stateMachine.ProcessEvents(new Event[] { new Play(), new Pause() });
 
-        // Act
-        bool result = stateMachine.ProcessEvent(new[] { event1, event2 });
-
-        // Assert
-        Assert.That(result, Is.True);
-        Assert.That(stateMachine.CurrentState, Is.EqualTo(state3));
+        Assert.That(processed, Is.True);
+        Assert.That(stateMachine.CurrentState, Is.SameAs(thirdState));
     }
 
     [Test]
-    public void ProcessEventSequence_ShouldReturnFalseOnFirstFailedEvent()
+    public void ProcessEvents_UnprocessedEvent_ReturnsFalseAtFirstFailure()
     {
-        // Arrange
         StateMachine stateMachine = new StateMachine();
-        State state1 = stateMachine.AddState("State1");
-        State state2 = stateMachine.AddState("State2");
-        Event event1 = new Event("Event1");
-        Event event3 = new Event("Event3");
+        TestState firstState = new TestState();
+        TestState secondState = new TestState();
+        firstState.AddTransition(new Play(), secondState);
+        stateMachine.AddState(firstState);
+        stateMachine.AddState(secondState);
 
-        state1.AddTransition(event1, state2);
-        // No transition from state2 to handle event3
+        bool processed = stateMachine.ProcessEvents(new Event[] { new Play(), new Pause() });
 
-        // Act
-        bool result = stateMachine.ProcessEvent(new[] { event1, event3 });
-
-        // Assert
-        Assert.That(result, Is.False);
-        Assert.That(stateMachine.CurrentState, Is.EqualTo(state2));
+        Assert.That(processed, Is.False);
+        Assert.That(stateMachine.CurrentState, Is.SameAs(secondState));
     }
 
-    [Test]
-    public void ProcessEvent_ShouldHandleElseTransition()
+    private sealed class TestState : State
     {
-        // Arrange
-        StateMachine stateMachine = new StateMachine();
-        State state1 = stateMachine.AddState("State1");
-        State state2 = stateMachine.AddState("State2");
-        Event nonMatchingEvent = new Event("NonMatchingEvent");
+        public int EnterCount { get; private set; }
 
-        state1.AddTransition(Event.Else, state2);
+        public int ExitCount { get; private set; }
 
-        // Act
-        bool result = stateMachine.ProcessEvent(nonMatchingEvent);
+        public override void OnEnter()
+        {
+            this.EnterCount++;
+        }
 
-        // Assert
-        Assert.That(result, Is.True);
-        Assert.That(stateMachine.CurrentState, Is.EqualTo(state2));
+        public override void OnExit()
+        {
+            this.ExitCount++;
+        }
+    }
+
+    private class AnotherState : State
+    {
+        public int EnterCount { get; private set; }
+
+        public int ExitCount { get; private set; }
+
+        public override void OnEnter()
+        {
+            this.EnterCount++;
+        }
+
+        public override void OnExit()
+        {
+            this.ExitCount++;
+        }
     }
 }
+
