@@ -5,10 +5,9 @@
 //------------------------------------------------------------------------------
 
 using Ucu.Poo.Fsm;
-
 using System;
 
-namespace Ucu.Poo.RideShare
+namespace Ucu.Poo.Fsm
 {
     /// <summary>
     /// El programa principal.

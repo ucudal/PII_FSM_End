@@ -143,6 +143,12 @@ estado.
 La clase `Transition` tiene la responsabilidad de conocer qué entrada la dispara
 y cuál es el próximo estado.
 
+> {!TIP}
+>
+> Agrega las clases `StateMachine`, `State`, `Transition` e `Input` en la
+> carpeta `src/Library/Base` y las clases del reproductor de música en
+> `src/Library/Player`.
+
 ## Uso de ![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-000?logo=githubcopilot&logoColor=fff)
 
 Es posible usar GitHub Copilot en este repositorio. Consulta [cómo usar Copilot
