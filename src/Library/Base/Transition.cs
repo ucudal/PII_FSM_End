@@ -15,36 +15,36 @@ namespace Ucu.Poo.Fsm
         /// <summary>
         /// Inicializa una nueva instancia de la clase <see cref="Transition"/>.
         /// </summary>
-        /// <param name="triggerInput">La entrada que dispara la
+        /// <param name="triggerSymbol">El símbolo de entrada que dispara la
         /// transición.</param>
         /// <param name="nextState">El estado al que se pasa cuando se dispara la
         /// transición.</param>
-        public Transition(Input triggerInput, State nextState)
+        public Transition(InputSymbol triggerSymbol, State nextState)
         {
-            this.TriggerInput = triggerInput;
+            this.TriggerSymbol = triggerSymbol;
             this.NextState = nextState;
         }
 
         /// <summary>
-        /// Obtiene la entrada que dispara la transición.
+        /// Obtiene el símbolo de entrada que dispara la transición.
         /// </summary>
-        public Input TriggerInput { get; }
+        public InputSymbol TriggerSymbol { get; }
 
         /// <summary>
-        /// Obtiene el estado al que se pasa cuando se dispara la transición.
+        /// Obtiene el estado al que pasa cuando se dispara la transición.
         /// </summary>
         public State NextState { get; }
 
         /// <summary>
-        /// Determina si esta transición se dispara con la entrada que se recibe
-        /// como argumento.
+        /// Determina si esta transición se dispara con el símbolo de entrada
+        /// que se recibe como argumento.
         /// </summary>
         /// <param name="inputEvent">La entrada a procesar.</param>
         /// <returns>Retorna <c>true</c> si la entrada dispara esta transición;
         /// retorna <c>false</c> en caso contrario.</returns>
-        public bool IsTriggeredBy(Input inputEvent)
+        public bool IsTriggeredBy(InputSymbol inputEvent)
         {
-            return this.TriggerInput.GetType() == inputEvent.GetType();
+            return this.TriggerSymbol.GetType() == inputEvent.GetType();
         }
     }
 }

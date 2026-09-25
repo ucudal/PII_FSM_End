@@ -10,9 +10,9 @@ namespace Ucu.Poo.Fsm.Tests
         [Test]
         public void PlayerEvents_ConcreteEvents_InheritFromEvent()
         {
-            Assert.That(new Play(), Is.TypeOf<Play>().And.InstanceOf<Input>());
-            Assert.That(new Pause(), Is.TypeOf<Pause>().And.InstanceOf<Input>());
-            Assert.That(new Stop(), Is.TypeOf<Stop>().And.InstanceOf<Input>());
+            Assert.That(new Play(), Is.TypeOf<Play>().And.InstanceOf<InputSymbol>());
+            Assert.That(new Pause(), Is.TypeOf<Pause>().And.InstanceOf<InputSymbol>());
+            Assert.That(new Stop(), Is.TypeOf<Stop>().And.InstanceOf<InputSymbol>());
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace Ucu.Poo.Fsm.Tests
         {
             MusicPlayer player = new MusicPlayer();
 
-            bool processed = player.ProcessEvents(new Input[]
+            bool processed = player.ProcessEvents(new InputSymbol[]
             {
             new Play(),
             new Pause(),

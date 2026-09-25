@@ -12,11 +12,13 @@ width="150"/>
 
 Una **máquina de estados finitos** es un modelo computacional que realiza
 cómputos de forma automática sobre una entrada para producir una salida. Está
-formado por un alfabeto finito, un conjunto finito de estados, una función de
-transición, un estado inicial y uno o más estados finales. Su funcionamiento
-consiste en leer una secuencia de símbolos de ese alfabeto, ir cambiando de
-estado según la función de transición, y detenerse en un estado final o de
-aceptación que representa el resultado del cómputo.
+formado por un alfabeto de símbolos finito, un conjunto finito de estados, una
+función de transición, un estado inicial y uno o más estados finales. La función
+de transición se puede entender como una tabla que define, dados un estado y un
+símbolo, cuál será el próximo estado. Su funcionamiento consiste en leer una
+secuencia de símbolos de ese alfabeto, ir cambiando de estado a medida que se
+leen esos símbolos según la función de transición, y detenerse en un estado
+final luego de leer el último símbolo.
 
 Las máquinas de estados finitos pueden ser utilizadas, entre otras situaciones,
 para modelar casos en los que:
@@ -25,7 +27,7 @@ para modelar casos en los que:
 
 * Se puede estar en un solo estado a la vez
 
-* Los cambios de un estado se producen ante la ocurrencia de ciertas entradas.
+* Los cambios de un estado se producen ante la ocurrencia de ciertos eventos.
 
 Un reproductor de música, por ejemplo, es uno de esos casos que puede ser
 modelado con una máquina de estados finitos.
@@ -82,6 +84,22 @@ Una máquina de estados finitos, se puede mostrar con un diagrama, como el que
 aparece a continuación:
 
 ```mermaid
+---
+config:
+  class:
+    hideEmptyMembersBox: true
+  theme:
+    base
+  themeVariables:
+    fontSize: 14px
+    mainBkg: transparent
+    primaryTextColor: '#006EAF'
+    primaryBorderColor: '#006EAF'
+    lineColor: '#006EAF'
+    useGradient: false
+    dropShadow: false
+    secondaryColor: transparent
+---
 stateDiagram-v2
     [*] --> Stopped
 
@@ -102,32 +120,51 @@ Para facilitar la tarea, te damos un diagrama de clases mostrando las
 responsabilidades y colaboraciones de esas clases:
 
 ```mermaid
+---
+config:
+  class:
+    hideEmptyMembersBox: true
+  theme:
+    base
+  themeVariables:
+    fontSize: 14px
+    mainBkg: transparent
+    primaryTextColor: '#006EAF'
+    primaryBorderColor: '#006EAF'
+    lineColor: '#006EAF'
+    useGradient: false
+    dropShadow: false
+    secondaryColor: transparent
+---
 classDiagram
     class StateMachine {
         CurrentState: State
+        AddToAlphabet(InputSymbol)
         AddState(State)
-        ProcessInput(Input) bool
-        ProcessInputs(Inputs[]) bool
+        ProcessInput(InputSymbol) bool
+        ProcessInputs(InputSymbol[]) bool
     }
 
     class State {
-        AddTransition(Input, State)
-        GetNextState(Input) State
+        AddTransition(InputSymbol, State)
+        GetNextState(InputSymbol) State
         OnEnter()
         OnExit()
     }
 
-    StateMachine *--> State : States
-
-    class Input {
+    class InputSymbol {
     }
 
+    StateMachine *--> State : States
+    StateMachine *--> InputSymbol : Alphabet
+    State ..> InputSymbol
+
     class Transition {
-        IsTriggeredBy(Input) bool
+        IsTriggeredBy(InputSymbol) bool
     }
 
     Transition --> State : NextState
-    Transition --> Input : TriggerInput
+    Transition --> InputSymbol : TriggerSymbol
     State *--> Transition : Transitions
 ```
 

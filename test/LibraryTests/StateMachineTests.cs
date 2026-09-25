@@ -24,10 +24,41 @@ namespace Ucu.Poo.Fsm.Tests
             State firstState = new TestState();
             State secondState = new TestState();
 
-            stateMachine.AddState(firstState);
-            stateMachine.AddState(secondState);
+            StateMachine.AddStateResult firstResult = stateMachine.AddState(firstState);
+            StateMachine.AddStateResult secondResult = stateMachine.AddState(secondState);
 
+            Assert.That(firstResult, Is.EqualTo(StateMachine.AddStateResult.Success));
+            Assert.That(secondResult, Is.EqualTo(StateMachine.AddStateResult.TypeAlreadyExists));
             Assert.That(stateMachine.States, Does.Not.Contain(secondState));
+        }
+
+        [Test]
+        public void AddToAlphabet_DuplicateSymbolType_ReturnsTypeAlreadyExists()
+        {
+            StateMachine stateMachine = new StateMachine();
+            InputSymbol firstSymbol = new TestSymbol();
+            InputSymbol secondSymbol = new TestSymbol();
+
+            StateMachine.AddToAlphabetResult firstResult = stateMachine.AddToAlphabet(firstSymbol);
+            StateMachine.AddToAlphabetResult secondResult = stateMachine.AddToAlphabet(secondSymbol);
+
+            Assert.That(firstResult, Is.EqualTo(StateMachine.AddToAlphabetResult.Success));
+            Assert.That(secondResult, Is.EqualTo(StateMachine.AddToAlphabetResult.TypeAlreadyExists));
+            Assert.That(stateMachine.Alphabet, Is.EquivalentTo(new[] { firstSymbol }));
+        }
+
+        [Test]
+        public void AddState_TransitionSymbolNotInAlphabet_ReturnsErrorAndDoesNotAddState()
+        {
+            StateMachine stateMachine = new StateMachine();
+            State state = new TestState();
+            state.AddTransition(new TestSymbol(), new AnotherState());
+
+            StateMachine.AddStateResult result = stateMachine.AddState(state);
+
+            Assert.That(result, Is.EqualTo(StateMachine.AddStateResult.TransitionTriggerTypeNotInAlphabet));
+            Assert.That(stateMachine.States, Is.Empty);
+            Assert.That(stateMachine.CurrentState, Is.Null);
         }
 
         [Test]
@@ -49,7 +80,7 @@ namespace Ucu.Poo.Fsm.Tests
         {
             StateMachine stateMachine = new StateMachine();
 
-            bool processed = stateMachine.ProcessEvent(new Play());
+            bool processed = stateMachine.ProcessEvent(new TestSymbol());
 
             Assert.That(processed, Is.False);
         }
@@ -58,13 +89,15 @@ namespace Ucu.Poo.Fsm.Tests
         public void ProcessEvent_ValidTransition_ChangesStateAndInvokesLifecycleMethods()
         {
             StateMachine stateMachine = new StateMachine();
+            InputSymbol play = new TestSymbol();
             TestState firstState = new TestState();
             AnotherState secondState = new AnotherState();
-            firstState.AddTransition(new Play(), secondState);
+            stateMachine.AddToAlphabet(play);
+            firstState.AddTransition(play, secondState);
             stateMachine.AddState(firstState);
             stateMachine.AddState(secondState);
 
-            bool processed = stateMachine.ProcessEvent(new Play());
+            bool processed = stateMachine.ProcessEvent(new TestSymbol());
 
             Assert.That(processed, Is.True);
             Assert.That(stateMachine.CurrentState, Is.SameAs(secondState));
@@ -79,7 +112,7 @@ namespace Ucu.Poo.Fsm.Tests
             TestState state = new TestState();
             stateMachine.AddState(state);
 
-            bool processed = stateMachine.ProcessEvent(new Pause());
+            bool processed = stateMachine.ProcessEvent(new AnotherSymbol());
 
             Assert.That(processed, Is.False);
             Assert.That(stateMachine.CurrentState, Is.SameAs(state));
@@ -89,16 +122,19 @@ namespace Ucu.Poo.Fsm.Tests
         public void ProcessEvents_AllEventsProcessSuccessfully_EndsInFinalState()
         {
             StateMachine stateMachine = new StateMachine();
+            InputSymbol play = new TestSymbol();
+            InputSymbol pause = new AnotherSymbol();
             TestState firstState = new TestState();
-            TestState secondState = new TestState();
-            TestState thirdState = new TestState();
-            firstState.AddTransition(new Play(), secondState);
-            secondState.AddTransition(new Pause(), thirdState);
+            AnotherState secondState = new AnotherState();
+            ThirdState thirdState = new ThirdState();
+            stateMachine.AddToAlphabet(new InputSymbol[] { play, pause });
+            firstState.AddTransition(play, secondState);
+            secondState.AddTransition(pause, thirdState);
             stateMachine.AddState(firstState);
             stateMachine.AddState(secondState);
             stateMachine.AddState(thirdState);
 
-            bool processed = stateMachine.ProcessEvents(new Input[] { new Play(), new Pause() });
+            bool processed = stateMachine.ProcessEvents(new InputSymbol[] { new TestSymbol(), new AnotherSymbol() });
 
             Assert.That(processed, Is.True);
             Assert.That(stateMachine.CurrentState, Is.SameAs(thirdState));
@@ -108,13 +144,15 @@ namespace Ucu.Poo.Fsm.Tests
         public void ProcessEvents_UnprocessedEvent_ReturnsFalseAtFirstFailure()
         {
             StateMachine stateMachine = new StateMachine();
+            InputSymbol play = new TestSymbol();
             TestState firstState = new TestState();
-            TestState secondState = new TestState();
-            firstState.AddTransition(new Play(), secondState);
+            AnotherState secondState = new AnotherState();
+            stateMachine.AddToAlphabet(play);
+            firstState.AddTransition(play, secondState);
             stateMachine.AddState(firstState);
             stateMachine.AddState(secondState);
 
-            bool processed = stateMachine.ProcessEvents(new Input[] { new Play(), new Pause() });
+            bool processed = stateMachine.ProcessEvents(new InputSymbol[] { new TestSymbol(), new AnotherSymbol() });
 
             Assert.That(processed, Is.False);
             Assert.That(stateMachine.CurrentState, Is.SameAs(secondState));
@@ -152,6 +190,25 @@ namespace Ucu.Poo.Fsm.Tests
             {
                 this.ExitCount++;
             }
+        }
+
+        private sealed class ThirdState : State
+        {
+            public override void OnEnter()
+            {
+            }
+
+            public override void OnExit()
+            {
+            }
+        }
+
+        private sealed class TestSymbol : InputSymbol
+        {
+        }
+
+        private sealed class AnotherSymbol : InputSymbol
+        {
         }
     }
 }

@@ -18,13 +18,14 @@ namespace Ucu.Poo.Fsm
         /// </summary>
         public MusicPlayer()
         {
+            InputSymbol play = new Play();
+            InputSymbol pause = new Pause();
+            InputSymbol stop = new Stop();
+            this.AddToAlphabet(new InputSymbol[] { play, pause, stop });
+
             State stopped = new Stopped();
             State playing = new Playing();
             State paused = new Paused();
-
-            Input play = new Play();
-            Input pause = new Pause();
-            Input stop = new Stop();
 
             stopped.AddTransition(play, playing);
             playing.AddTransition(pause, paused);

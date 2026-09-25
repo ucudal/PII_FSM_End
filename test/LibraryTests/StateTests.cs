@@ -16,7 +16,7 @@ namespace Ucu.Poo.Fsm.Tests
             state.AddTransition(play, nextState);
 
             Assert.That(state.Transitions, Has.Count.EqualTo(1));
-            Assert.That(state.Transitions[0].TriggerInput, Is.SameAs(play));
+            Assert.That(state.Transitions[0].TriggerSymbol, Is.SameAs(play));
             Assert.That(state.Transitions[0].NextState, Is.SameAs(nextState));
         }
 

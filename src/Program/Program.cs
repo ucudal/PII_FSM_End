@@ -20,7 +20,7 @@ namespace Ucu.Poo.Fsm
         public static void Main()
         {
             StateMachine player = new MusicPlayer();
-            Input[] buttons = new Input[] { new Play(), new Pause(), new Play(), new Stop() };
+            InputSymbol[] buttons = new InputSymbol[] { new Play(), new Pause(), new Play(), new Stop() };
             player.ProcessEvents(buttons);
         }
     }

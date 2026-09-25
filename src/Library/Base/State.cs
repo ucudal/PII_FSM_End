@@ -29,28 +29,28 @@ namespace Ucu.Poo.Fsm
         /// <summary>
         /// Agrega una nueva transición de salida a este estado.
         /// </summary>
-        /// <param name="triggerInput">La entrada que dispara la
+        /// <param name="triggerSymbol">La entrada que dispara la
         /// transición.</param>
         /// <param name="nextState">El próximo estado cuando se dispara esta
         /// transición.</param>
         public void AddTransition(
-            Input triggerInput,
+            InputSymbol triggerSymbol,
             State nextState)
         {
-            Transition transition = new Transition(triggerInput, nextState);
+            Transition transition = new Transition(triggerSymbol, nextState);
             this.transitions.Add(transition);
         }
 
         /// <summary>
         /// Determina el estado siguiente dada una entrada si dispara alguna de
         /// las transiciones de este estado. Ver <see
-        /// cref="Transition.IsTriggeredBy(Input)"/>.
+        /// cref="Transition.IsTriggeredBy(InputSymbol)"/>.
         /// </summary>
         /// <param name="input">La entrada a procesar.</param>
         /// <returns>Retorna el estado siguiente de la transición disparada por
         /// la entrada procesado, o <c>null</c> si la entrada no dispara una
         /// transición.</returns>
-        public State GetNextState(Input input)
+        public State GetNextState(InputSymbol input)
         {
             State nextState = null;
 

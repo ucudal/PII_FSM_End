@@ -13,7 +13,7 @@ namespace Ucu.Poo.Fsm.Tests
 
             Transition transition = new Transition(play, nextState);
 
-            Assert.That(transition.TriggerInput, Is.SameAs(play));
+            Assert.That(transition.TriggerSymbol, Is.SameAs(play));
             Assert.That(transition.NextState, Is.SameAs(nextState));
         }
 

@@ -10,7 +10,7 @@ namespace Ucu.Poo.Fsm
     /// Esta clase representa el evento del botón `Play` del reproductor de
     /// música.
     /// </summary>
-    public class Play : Input
+    public class Play : InputSymbol
     {
         // Intencionalmente en blanco
     }
